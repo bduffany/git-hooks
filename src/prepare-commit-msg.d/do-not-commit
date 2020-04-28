@@ -1,0 +1,21 @@
+#!/bin/bash
+
+# Prevents committing files which contain "DO NOT COMMIT".
+# This is useful when adding temporary code that is meant for debugging only.
+
+function filter-existing () {
+  while IFS= read -r line ; do
+    if [[ -e "$line" ]]; then
+      echo "$line"
+    fi
+  done
+}
+
+git diff --cached --name-only | filter-existing | xargs -n 1 ag -H --color-match '30;41' --color-path '30;41' "DO NOT COMMIT" && {
+  failed=1  
+}
+
+if [ "$failed" == 1 ] ; then
+  echo "error: diff contains DO NOT COMMIT."
+  exit 1
+fi

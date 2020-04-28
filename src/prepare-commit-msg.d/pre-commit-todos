@@ -1,0 +1,24 @@
+#!/bin/bash
+
+# Checks for hard-coded TODO comments:
+
+# <comment> TODO [i] = Info message; print to console.
+# <comment> TODO [w] = Warning message; print to console, highlighting in yellow.
+# <comment> TODO [e] = Error message; print to console and prevent commit.
+
+if ! which ag > /dev/null ; then
+  echo "error: ag command is not installed, so pre-commit hooks failed."
+  echo "Please see https://github.com/ggreer/the_silver_searcher"
+  exit 1
+fi
+
+# Info
+ag -H --color-match '30;44' --color-path '30;44' '(#|//)\s*TODO\s*\[[Ii]\]' .
+
+# Warning
+ag -H --color-path '30;43' '(#|//)\s*TODO\s*\[[Ww]\]' .
+
+# Error
+if ag -H --color-match '30;41' --color-path '30;41' '(#|//)\s*TODO\s*\[[Ee]\]' . ; then
+  echo "error: TODOs preventing commit. Please fix and try again."
+fi
