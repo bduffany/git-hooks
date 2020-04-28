@@ -13,12 +13,12 @@ if ! which ag > /dev/null ; then
 fi
 
 # Info
-ag -H --color-match '30;44' --color-path '30;44' '(#|//)\s*TODO\s*\[[Ii]\]' .
+ag -H --color-match '30;44' --color-path '30;44' '(<!--|#|//)\s*TODO\s*\[[Ii]\]' .
 
 # Warning
-ag -H --color-path '30;43' '(#|//)\s*TODO\s*\[[Ww]\]' .
+ag -H --color-path '30;43' '(<!--|#|//)\s*TODO\s*\[[Ww]\]' .
 
 # Error
-if ag -H --color-match '30;41' --color-path '30;41' '(#|//)\s*TODO\s*\[[Ee]\]' . ; then
+if ag -H --color-match '30;41' --color-path '30;41' '(<!--|#|//)\s*TODO\s*\[[Ee]\]' . ; then
   echo "error: TODOs preventing commit. Please fix and try again."
 fi
