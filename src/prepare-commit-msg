@@ -11,7 +11,7 @@ hook_dir="$script_dir/$hook_name.d"
 
 if [[ -d $hook_dir ]]; then
   if [ ! -t 0 ] ; then
-    stdin=$(cat /dev/stdin)
+    stdin=$(cat)
   fi
 
   for hook in $hook_dir/*; do
